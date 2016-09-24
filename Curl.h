@@ -15,9 +15,9 @@ class Curl : private boost::noncopyable
 {
 public:
   Curl()
-    : headers_(NULL)
-    , post_(NULL)
-    , last_(NULL)
+    : headers_(nullptr)
+    , post_(nullptr)
+    , last_(nullptr)
   {
     curl_ = curl_easy_init();
     SetOpt(CURLOPT_NOSIGNAL, 1);
@@ -79,7 +79,7 @@ public:
     if (headers_)
     {
       curl_slist_free_all(headers_);
-      headers_ = NULL;
+      headers_ = nullptr;
     }
   }
 
@@ -99,8 +99,8 @@ public:
     if (post_)
     {
       curl_formfree(post_);
-      post_ = NULL;
-      last_ = NULL;
+      post_ = nullptr;
+      last_ = nullptr;
     }
   }
 

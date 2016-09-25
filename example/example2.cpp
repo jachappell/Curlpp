@@ -20,21 +20,3 @@ int main(int argc, char **argv)
 
   return 0;
 }
-
-
-static size_t read_result(void *buffer, size_t size, size_t nmemb,
-                                  void *stream)
-{
-  string *out = static_cast<string *>(stream);
-  if (out)
-  {
-    string new_string((const char* )buffer);
-    size_t buf_size = size * nmemb;
-    *out += string((const char* )buffer);
-    return buf_size;
-  }
-
-  return -1;
-}
-
-

@@ -15,21 +15,24 @@ public:
   Fetch();
   ~Fetch();
   
-  std::string Body(const std::string& url) const
+  CURLcode Body(const std::string& url, std::string& result,
+                long& http_status) const
   {
-    return fetch(CURLOPT_WRITEDATA, url);
+    return fetch(CURLOPT_WRITEDATA, url, result, http_status);
   }
 
-  std::string Header(const std::string& url) const
+  CURLcode Header(const std::string& url, std::string& result,
+                  long& http_status) const
   {
-    return fetch(CURLOPT_HEADERDATA, url);
+    return fetch(CURLOPT_HEADERDATA, url, result, http_status);
   }
 
   Curl *curl() const { return curl_; }
 
 
 private:
-  std::string fetch(CURLoption option, const std::string& url) const;
+  CURLcode fetch(CURLoption option, const std::string& url,
+                 std::string& result, long& http_status) const;
 
   static size_t read_result(void *buffer, size_t size, size_t nmemb,
                             void *stream);

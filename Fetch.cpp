@@ -3,7 +3,7 @@
 //
 #include "Fetch.h"
 
-#include <iostream>
+#include <string.h>
 
 using namespace std;
 
@@ -37,24 +37,24 @@ Fetch::~Fetch()
   delete curl_;
 }
 
-string Fetch::fetch(CURLoption option, const string& url) const
+CURLcode Fetch::fetch(CURLoption option, const string& url,
+                      string& result, long& http_status) const
 {
-  string result;
-  
   curl_->SetOpt(option, &result);
 
   curl_->Url(url);
 
-  long http_status;
   CURLcode res = curl_->Perform(http_status);
 
   if (res != CURLE_OK)
   {
-    cerr << "http_status = " << http_status << "\n";
-    cerr << curl_->error() << endl;
+    if (strlen(curl_->error()) > 0)
+    {
+      result = curl_->error();
+    }
   }
 
-  return result;
+  return res;
 }
 
 size_t Fetch::read_result(void *buffer, size_t size, size_t nmemb,

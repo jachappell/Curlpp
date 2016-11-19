@@ -13,10 +13,26 @@ int main(int argc, char **argv)
   }
 
   Fetch fetch;
+  string data;
+  long http_status;
   
-  string data = fetch.Body(argv[1]);
+  CURLcode result = fetch.Body(argv[1], data, http_status);
 
-  cout << data << endl;
+  if (result == CURLE_OK)
+  {
+    if ((http_status >= 200) && (http_status < 300))
+    {
+      cout << data << endl;
+    }
+    else
+    {
+      cout << "http_status = " << http_status << endl;
+    }
+  }
+  else
+  {
+    cerr << "CURLcode = " << result << ": " << data << endl;
+  }
 
-  return 0;
+  return result;
 }

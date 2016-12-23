@@ -37,13 +37,14 @@ Fetch::~Fetch()
   delete curl_;
 }
 
-CURLcode Fetch::fetch(CURLoption option, const string& url,
-                      string& result, long& http_status) const
+Fetch::Status Fetch::fetch(CURLoption option, const string& url,
+                           string& result) const
 {
   curl_->SetOpt(option, &result);
 
   curl_->Url(url);
 
+  long http_status;
   CURLcode res = curl_->Perform(http_status);
 
   if (res != CURLE_OK)
@@ -54,7 +55,7 @@ CURLcode Fetch::fetch(CURLoption option, const string& url,
     }
   }
 
-  return res;
+  return make_pair(res, http_status);
 }
 
 size_t Fetch::read_result(void *buffer, size_t size, size_t nmemb,

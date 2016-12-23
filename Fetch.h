@@ -12,27 +12,27 @@
 class Fetch : private boost::noncopyable
 {
 public:
+  typedef std::pair<CURLcode, long> Status;
+
   Fetch();
   ~Fetch();
   
-  CURLcode Body(const std::string& url, std::string& result,
-                long& http_status) const
+  Status Body(const std::string& url, std::string& result) const
   {
-    return fetch(CURLOPT_WRITEDATA, url, result, http_status);
+    return fetch(CURLOPT_WRITEDATA, url, result);
   }
 
-  CURLcode Header(const std::string& url, std::string& result,
-                  long& http_status) const
+  Status Header(const std::string& url, std::string& result) const
   {
-    return fetch(CURLOPT_HEADERDATA, url, result, http_status);
+    return fetch(CURLOPT_HEADERDATA, url, result);
   }
 
   Curl *curl() const { return curl_; }
 
 
 private:
-  CURLcode fetch(CURLoption option, const std::string& url,
-                 std::string& result, long& http_status) const;
+  Status fetch(CURLoption option, const std::string& url, std::string& result
+               ) const;
 
   static size_t read_result(void *buffer, size_t size, size_t nmemb,
                             void *stream);

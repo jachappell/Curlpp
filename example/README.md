@@ -6,5 +6,6 @@
 
 To build the exmaples:
 <pre>
-$ . ./build.sh
+$ make -f example1.mak<br />
+$ make -f example2.mak
 </pre>

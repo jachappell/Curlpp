@@ -12,10 +12,10 @@ int main(int argc, char **argv)
     return 1;
   }
 
-  Fetch fetch;
+  Fetch fetch(argv[1]);
   string data;
   
-  Fetch::Status result = fetch.Body(argv[1], data);
+  Fetch::Status result = fetch.Body(data);
 
   if (result.first == CURLE_OK)
   {

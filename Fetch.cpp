@@ -25,11 +25,13 @@ public:
 static CurlGlobalInit init;
 
 
-Fetch::Fetch()
+Fetch::Fetch(const string& url)
+  : url_(url)
 {
   curl_ = new Curl();
 
   curl_->SetOpt(CURLOPT_WRITEFUNCTION, read_result);
+  curl_->Url(url_);
 }
 
 Fetch::~Fetch()
@@ -37,12 +39,10 @@ Fetch::~Fetch()
   delete curl_;
 }
 
-Fetch::Status Fetch::fetch(CURLoption option, const string& url,
-                           string& result) const
+Fetch::Status Fetch::fetch(CURLoption option, string& result) const
 {
   curl_->SetOpt(option, &result);
 
-  curl_->Url(url);
 
   long http_status;
   CURLcode res = curl_->Perform(http_status);

@@ -15,23 +15,16 @@ int main(int argc, char **argv)
   Fetch fetch(argv[1]);
   string data;
   
-  Fetch::Status result = fetch.Body(data);
+  long result = fetch.Body(data);
 
-  if (result.first == CURLE_OK)
+  if (Curl::httpStatusOK(result))
   {
-    if ((result.second >= 200) && (result.second < 300))
-    {
-      cout << data << endl;
-    }
-    else
-    {
-      cout << "http_status = " << result.second << endl;
-    }
+    cout << data << endl;
   }
   else
   {
-    cerr << "CURLcode = " << result.first << ": " << data << endl;
+    cerr << "http_status = " << result << endl;
   }
 
-  return result.first;
+  return 0;
 }

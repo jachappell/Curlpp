@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 
   Curl::GlobalCleanup();
 
-  if ((res != CURLE_OK) || (http_status != 200))
+  if ((res != CURLE_OK) || !Curl::httpStatusOK(http_status))
   {
     cerr << curl.error() << endl;
     return 1;

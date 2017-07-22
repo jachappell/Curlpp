@@ -115,6 +115,16 @@ public:
     return status;
   }
 
+  static bool httpStatusOK(long status)
+  {
+    return (status >= 200) && (status < 300);
+  }
+
+  static bool httpClientError(long status)
+  {
+    return (status >= 400) && (status < 500);
+  }
+
   const char *error() const { return error_buffer_; }
 
   static CURLcode GlobalInit(long flags = CURL_GLOBAL_DEFAULT)

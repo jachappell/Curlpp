@@ -3,6 +3,7 @@
 //
 #include "Fetch.h"
 
+#include <stdexcept>
 #include <string.h>
 
 using namespace std;
@@ -25,37 +26,56 @@ public:
 static CurlGlobalInit init;
 
 
-Fetch::Fetch(const string& url)
-  : url_(url)
+Fetch::Fetch(const char *url)
 {
   curl_ = new Curl();
 
   curl_->SetOpt(CURLOPT_WRITEFUNCTION, read_result);
-  curl_->Url(url_);
+
+  if (url)
+  {
+    Url(url);
+  }
 }
+
 
 Fetch::~Fetch()
 {
   delete curl_;
 }
 
-Fetch::Status Fetch::fetch(CURLoption option, string& result) const
+
+long Fetch::fetch(CURLoption option, string& result) const
 {
   curl_->SetOpt(option, &result);
-
 
   long http_status;
   CURLcode res = curl_->Perform(http_status);
 
   if (res != CURLE_OK)
   {
-    if (strlen(curl_->error()) > 0)
+    string error;
+    if (curl_->error() && (strlen(curl_->error()) > 0))
     {
-      result = curl_->error();
+      error = curl_->error();
+    }
+    else
+    {
+      error = "CURLcode = " + to_string(res);
+    }
+    switch(res)
+    {
+      case CURLE_URL_MALFORMAT:
+        throw logic_error(error);
+        break;
+
+      default:
+        throw runtime_error(error);
+        break;
     }
   }
 
-  return make_pair(res, http_status);
+  return http_status;
 }
 
 size_t Fetch::read_result(void *buffer, size_t size, size_t nmemb,

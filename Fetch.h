@@ -15,12 +15,12 @@ public:
   Fetch(const char *url = nullptr);
   ~Fetch();
   
-  long Body(std::string& result) const
+  long operator()(std::string& result) const
   {
     return fetch(CURLOPT_WRITEDATA, result);
   }
   
-  long Body(const char *url, std::string& result)
+  long operator()(const std::string& url, std::string& result)
   {
     Url(url);
     return fetch(CURLOPT_WRITEDATA, result);
@@ -31,13 +31,13 @@ public:
     return fetch(CURLOPT_HEADERDATA, result);
   }
 
-  long Header(const char *url, std::string& result)
+  long Header(const std::string& url, std::string& result)
   {
     Url(url);
     return fetch(CURLOPT_HEADERDATA, result);
   }
 
-  void Url(const char *url)
+  void Url(const std::string& url)
   {
     curl_->Url(url);
   }

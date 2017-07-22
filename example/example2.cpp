@@ -15,7 +15,7 @@ int main(int argc, char **argv)
   Fetch fetch(argv[1]);
   string data;
   
-  long result = fetch.Body(data);
+  long result = fetch(data);
 
   if (Curl::httpStatusOK(result))
   {

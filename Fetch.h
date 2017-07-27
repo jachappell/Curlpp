@@ -4,37 +4,27 @@
 #ifndef __FETCH_H__
 #define __FETCH_H__
 
+#include <memory>
 #include <string>
-#include <boost/noncopyable.hpp>
 
 #include "Curl.h"
 
-class Fetch : private boost::noncopyable
+class Fetch
 {
 public:
   Fetch(const char *url = nullptr);
-  ~Fetch();
   
-  long operator()(std::string& result) const
+  long operator()(std::string& result,
+                  CURLoption option = CURLOPT_WRITEDATA) const
   {
-    return fetch(CURLOPT_WRITEDATA, result);
+    return fetch(option, result);
   }
   
-  long operator()(const std::string& url, std::string& result)
+  long operator()(const std::string& url, std::string& result,
+                  CURLoption option = CURLOPT_WRITEDATA)
   {
     Url(url);
-    return fetch(CURLOPT_WRITEDATA, result);
-  }
-
-  long Header(std::string& result) const
-  {
-    return fetch(CURLOPT_HEADERDATA, result);
-  }
-
-  long Header(const std::string& url, std::string& result)
-  {
-    Url(url);
-    return fetch(CURLOPT_HEADERDATA, result);
+    return fetch(option, result);
   }
 
   void Url(const std::string& url)
@@ -42,7 +32,7 @@ public:
     curl_->Url(url);
   }
 
-  Curl *curl() const { return curl_; }
+  std::unique_ptr<Curl> const& curl() { return curl_; }
 
 
 private:
@@ -50,7 +40,8 @@ private:
 
   static size_t read_result(void *buffer, size_t size, size_t nmemb,
                             void *stream);
-  Curl *curl_;
+
+  std::unique_ptr<Curl> curl_;
 };
 
 #endif

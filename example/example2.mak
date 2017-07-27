@@ -2,7 +2,7 @@ PROG=example2
 OBJDIR=.obj
 CC=g++
 
-CFLAGS = -Wall --std=c++0x -I.. `pkg-config libcurl --libs`
+CFLAGS = -Wall --std=c++14 -I.. `pkg-config libcurl --libs`
 LDFLAGS = `pkg-config libcurl --libs`
 
 $(shell test -f Fetch.cpp || ln ../Fetch.cpp .)

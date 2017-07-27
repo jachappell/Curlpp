@@ -15,11 +15,11 @@ class Curl : private boost::noncopyable
 {
 public:
   Curl()
-    : headers_(nullptr)
+    : curl_(curl_easy_init())
+    , headers_(nullptr)
     , post_(nullptr)
     , last_(nullptr)
   {
-    curl_ = curl_easy_init();
     SetOpt(CURLOPT_NOSIGNAL, 1);
     SetOpt(CURLOPT_ERRORBUFFER, error_buffer_);
   }

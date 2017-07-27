@@ -27,21 +27,14 @@ static CurlGlobalInit init;
 
 
 Fetch::Fetch(const char *url)
+  : curl_(make_unique<Curl>())
 {
-  curl_ = new Curl();
-
   curl_->SetOpt(CURLOPT_WRITEFUNCTION, read_result);
 
   if (url)
   {
     Url(url);
   }
-}
-
-
-Fetch::~Fetch()
-{
-  delete curl_;
 }
 
 
@@ -77,6 +70,7 @@ long Fetch::fetch(CURLoption option, string& result) const
 
   return http_status;
 }
+
 
 size_t Fetch::read_result(void *buffer, size_t size, size_t nmemb,
                             void *stream)

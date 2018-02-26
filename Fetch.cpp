@@ -81,7 +81,6 @@ size_t Fetch::read_result(void *buffer, size_t size, size_t nmemb,
   auto *out = static_cast<string *>(stream);
   if (out)
   {
-    string new_string((const char* )buffer);
     auto buf_size = size * nmemb;
     *out += string((const char* )buffer);
     return buf_size;

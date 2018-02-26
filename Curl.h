@@ -9,9 +9,8 @@
 #include <curl/curl.h>
 #include <string>
 #include <cctype>
-#include <boost/noncopyable.hpp>
 
-class Curl : private boost::noncopyable
+class Curl
 {
 public:
   Curl()
@@ -23,6 +22,10 @@ public:
     SetOpt(CURLOPT_NOSIGNAL, 1);
     SetOpt(CURLOPT_ERRORBUFFER, error_buffer_);
   }
+
+  // no copy
+  Curl(const Curl&) = delete;
+  Curl& operator=(const Curl&) = delete;
 
   ~Curl()
   {

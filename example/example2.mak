@@ -5,8 +5,6 @@ CC=g++
 CFLAGS = -Wall --std=c++14 -I.. `pkg-config libcurl --libs`
 LDFLAGS = `pkg-config libcurl --libs`
 
-$(shell test -f Fetch.cpp || ln ../Fetch.cpp .)
-
 $(shell mkdir -p $(OBJDIR)) 
 
 OBJS = $(OBJDIR)/example2.o $(OBJDIR)/Fetch.o
@@ -15,6 +13,9 @@ $(PROG) : $(OBJS)
 	$(CC) $(OBJS) $(LDFLAGS) -o $(PROG)
 
 -include $(OBJS:.o=.d)
+
+Fetch.cpp: ../Fetch.cpp
+	cp ../Fetch.cpp .
 
 $(OBJDIR)/%.o: %.cpp
 	$(CC) -c $(CFLAGS) $*.cpp -o $(OBJDIR)/$*.o

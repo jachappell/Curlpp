@@ -7,7 +7,7 @@
 #include <string.h>
 
 using namespace std;
-using namespace Storage_B;
+using namespace Storage_B::Curlpp;
 
 class CurlGlobalInit
 {

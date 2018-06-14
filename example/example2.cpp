@@ -3,7 +3,7 @@
 #include <iostream>
 
 using namespace std;
-using namespace Storage_B;
+using namespace Storage_B::Curlpp;
 
 int main(int argc, char **argv)
 {

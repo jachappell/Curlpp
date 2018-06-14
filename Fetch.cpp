@@ -7,6 +7,7 @@
 #include <string.h>
 
 using namespace std;
+using namespace Storage_B;
 
 class CurlGlobalInit
 {

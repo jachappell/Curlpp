@@ -1,47 +1,49 @@
 //
 // Copyright (c) 2016 James A. Chappell
 
-#ifndef __FETCH_H__
-#define __FETCH_H__
+#ifndef STORAGE_B_FETCH_H__
+#define STORAGE_B_FETCH_H__
 
 #include <memory>
 #include <string>
 
 #include "Curl.h"
 
-class Fetch
+namespace Storage_B
 {
-public:
-  Fetch(const char *url = nullptr);
-  
-  long operator()(std::string& result,
-                  CURLoption option = CURLOPT_WRITEDATA) const
+  class Fetch
   {
-    return fetch(option, result);
-  }
-  
-  long operator()(const std::string& url, std::string& result,
-                  CURLoption option = CURLOPT_WRITEDATA)
-  {
-    Url(url);
-    return fetch(option, result);
-  }
+  public:
+    Fetch(const char *url = nullptr);
+    
+    long operator()(std::string& result,
+                    CURLoption option = CURLOPT_WRITEDATA) const
+    {
+      return fetch(option, result);
+    }
+    
+    long operator()(const std::string& url, std::string& result,
+                    CURLoption option = CURLOPT_WRITEDATA)
+    {
+      Url(url);
+      return fetch(option, result);
+    }
 
-  void Url(const std::string& url)
-  {
-    curl_->Url(url);
-  }
+    void Url(const std::string& url)
+    {
+      curl_->Url(url);
+    }
 
-  std::unique_ptr<Curl> const& curl() { return curl_; }
+    std::unique_ptr<Curl> const& curl() { return curl_; }
 
 
-private:
-  long fetch(CURLoption option, std::string& result) const;
+  private:
+    long fetch(CURLoption option, std::string& result) const;
 
-  static size_t read_result(void *buffer, size_t size, size_t nmemb,
-                            void *stream);
+    static size_t read_result(void *buffer, size_t size, size_t nmemb,
+                              void *stream);
 
-  std::unique_ptr<Curl> curl_;
-};
-
+    std::unique_ptr<Curl> curl_;
+  };
+}
 #endif

@@ -5,6 +5,7 @@
 static size_t read_result(void *buffer, size_t size, size_t nmemb, void *stream);
 
 using namespace std;
+using namespace Storage_B;
 
 int main(int argc, char **argv)
 {

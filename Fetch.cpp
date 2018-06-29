@@ -4,7 +4,7 @@
 #include "Fetch.h"
 
 #include <stdexcept>
-#include <string.h>
+#include <cstring>
 
 using namespace std;
 using namespace Storage_B::Curlpp;

@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2016 James A. Chappell
+// Copyright (c) 2018 James A. Chappell
 
 #ifndef STORAGE_B_FETCH_H__
 #define STORAGE_B_FETCH_H__
@@ -35,9 +35,6 @@ namespace Storage_B
       {
         curl_->Url(url);
       }
-
-      std::unique_ptr<Curl> const& curl() { return curl_; }
-
 
     private:
       long fetch(CURLoption option, std::string& result) const;
